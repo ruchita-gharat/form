@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SignUp</title>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <script src="https://unpkg.com/react@15.3.2/dist/react.js"></script>
+  <script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+</head>
+<body>
+    <div id="container" class='container'></div>
+    <script type="text/babel">
+ 
+var Header = React.createClass({
+  render() {
+    return (
+    <div>
+      <h3>Sign up </h3>
+    </div>
+    )
+  }
+});
+
+
+
+
+var Input = React.createClass({
+    handleChange: function (e) {
+        this.props.onChange(e.target.value);
+        var isValidField = this.isValid(e.target);
+    },
+    isValid: function (input) {
+        if (input.getAttribute('required') != null && input.value ==="") {
+            input.classList.add('error'); 
+            input.nextSibling.textContent = this.props.messageRequired; 
+            return false;
+        }
+        else {
+            input.classList.remove('error'); 
+            input.nextSibling.textContent = ""; 
+        }
+
+         if (input.getAttribute('type') == "text" && input.value != "") {
+            if (this.validateUsername(input.value)) {
+                input.classList.add('error');
+                input.nextSibling.textContent = this.props.messageRequired;
+                return false;
+            }
+            else {
+                input.classList.remove('error');
+                input.nextSibling.textContent = "";
+            }
+        }
+
+
+        if (input.getAttribute('type') == "email" && input.value != "") {
+            if (this.validateEmail(input.value)) {
+                input.classList.add('error');
+                input.nextSibling.textContent = this.props.messageRequired;
+                return false;
+            }
+            else {
+                input.classList.remove('error');
+                input.nextSibling.textContent = "";
+            }
+        }
+
+         if (input.getAttribute('type') == "password" && input.value != "") {
+            if (this.validatePassword(input.value)) {
+                input.classList.add('error');
+                input.nextSibling.textContent = this.props.messageRequired;
+                return false;
+            }
+            else {
+                input.classList.remove('error');
+                input.nextSibling.textContent = "";
+            }
+        }
+        if (input.getAttribute('name') == "ConfirmPassword") {
+
+            if (document.getElementById('Password').value==input.value) {
+         
+                input.classList.remove('error');
+                input.nextSibling.textContent = "";
+            }
+            else {
+                input.classList.add('error');
+                input.nextSibling.textContent = this.props.messageRequired;
+                return false;
+            }
+        }
+
+
+        return true;
+    },
+
+    validateUsername: function (value) {
+        
+         if (/^[^-\s](?!.*\s\s)[a-zA-Z.\s_,-]+$/.test(value))  
+          {  
+            return false;  
+          }  
+        return true;
+    },
+
+    validateEmail: function (value) {
+        
+         if (/^[a-z][a-zA-Z0-9_]*(\.[a-zA-Z][a-zA-Z0-9_]*)?@[a-z][a-zA-Z-0-9]*\.[a-z]+(\.[a-z]+)?$/.test(value))  
+          {  
+            return false;  
+          }  
+        return true;
+    },
+
+    validatePassword: function (value) {
+        
+         if (/((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})/.test(value))  
+          {  
+            return false;  
+          }  
+        return true;
+    },
+
+
+
+    render: function () {
+        var inputField;
+        if (this.props.type == 'textarea') {
+            inputField = <textarea value={this.props.value} ref={this.props.name} name={this.props.name}
+                required={this.props.isrequired} onChange={this.handleChange} />
+        }
+        else {
+            inputField = <input type={this.props.type} value={this.props.value} id={this.props.id} ref={this.props.name} name={this.props.name} required={this.props.isrequired} onChange={this.handleChange} />
+            }
+        return (
+                <div>
+                    <label htmlFor={this.props.htmlFor} className="text" >{this.props.label}:</label>
+                    {inputField}
+                    <span className="error"></span>
+                </div>
+            );
+    }
+});
+
+var SignUpForm = React.createClass({
+    getInitialState : function(){
+        return {
+            Fullname : '',
+            Email:'',
+            Password : '',
+            ConfirmPassword : '',
+            Fields : [],
+            ServerMessage : ''
+        }
+    },
+
+   
+    onChangeFullname : function(value){
+        this.setState({
+            Fullname : value
+        });
+    },
+    onChangeEmail : function(value){
+        this.setState({
+            Email : value
+        });
+    },
+    onChangePassword : function(value){
+        this.setState({
+            Password : value
+        });
+    },
+    onChangeConfirmPassword : function(value){
+        this.setState({
+            ConfirmPassword : value
+        });
+    },
+    
+    render : function(){
+        return(
+            <form>
+            <Header />
+                <Input type={'text'} value={this.state.Fullname} label={'User Name'} name={'Fullname'} htmlFor={'Fullname'} isrequired={true} className="text"
+                    onChange={this.onChangeFullname}  messageRequired={'UserName required'} />
+
+                    <br/><br/>
+                <Input type={'email'} value={this.state.Email} label={'Email'} name={'Email'} htmlFor={'Email'} isrequired={true}
+                    onChange={this.onChangeEmail}  messageRequired={'Invalid Email'} />
+                    <br/><br/>
+                <Input type={'password'} value={this.state.Password} label={'Password'} id={'Password'} name={'Password'} htmlFor={'Password'} isrequired={true}
+                    onChange={this.onChangePassword}  messageRequired={'Password must contain at least 8 characters, 1 upper case, 1 lower case, 1 number.'} />
+                    <br/><br/>
+                <Input type={'password'} value={this.state.ConfirmPassword} label={'Confirm Password'} name={'ConfirmPassword'} htmlFor={'ConfirmPassword'} isrequired={true}
+                    onChange={this.onChangeConfirmPassword}  messageRequired={'Password does not match'} />
+                    <br/><br/>
+                <button type="submit">Submit</button> 
+            </form>
+        );
+    }
+});
+ 
+ReactDOM.render(<SignUpForm/>, document.getElementById('container'));
+</script>
+</body>
+</html>

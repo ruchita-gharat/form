@@ -1,0 +1,50 @@
+ h6
+{
+  font-size: 14px;
+  letter-spacing: 1px;
+  padding-left: 10px;
+  font-family: 'arial';
+}
+h3
+{
+  background-color: #337ab7;
+  color: #fff;
+  font-family: 'arial';
+  font-size: 18px;
+     padding:10px;
+}
+.container
+{
+  width: 20%;
+  border:2px solid #337ab7;
+  margin: 0 auto;
+  padding-bottom: 30px;
+
+}
+button
+{
+  background-color: #5cb85c;
+  padding: 10px;
+  border:none;
+    margin-left: 10px;
+  color: #fff;
+  font-size: 14px;
+  border-radius: 6px;
+}
+input
+{
+margin-top: 5px;
+margin-left:10px;
+width: 92%;
+}
+
+input.error
+{
+border-color: red;
+}
+label.text
+{
+    padding-left: 10px;
+    font-family: 'arial';
+    font-size: 14px;
+}
